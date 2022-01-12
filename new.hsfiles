@@ -77,6 +77,7 @@ tests:
 
 {-# START_FILE Setup.hs #-}
 import Distribution.Simple
+
 main = defaultMain
 
 {-# START_FILE test/Spec.hs #-}
@@ -84,8 +85,9 @@ main = defaultMain
 
 {-# START_FILE src/Lib.hs #-}
 module Lib
-    ( someFunc
-    ) where
+  ( someFunc,
+  )
+where
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
