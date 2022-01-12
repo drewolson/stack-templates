@@ -42,6 +42,7 @@ default-extensions:
 
 dependencies:
 - base >= 4.7 && < 5
+- ormolu
 
 library:
   source-dirs: src
@@ -106,3 +107,60 @@ MIT
 {-# START_FILE .gitignore #-}
 .stack-work/
 *~
+
+{-# START_FILE Makefile #-}
+list-files = git ls-files '*.hs'
+
+ormolu = stack exec -- ormolu -o '-XImportQualifiedPost' -o '-XPatternSynonyms'
+
+build:
+	stack build
+
+format: build
+	$(ormolu) --mode inplace $(shell $(list-files))
+
+format-check: build
+	$(ormolu) --mode check $(shell $(list-files))
+
+.PHONY: build format format-check
+
+{-# START_FILE .github/workflows/build.yml #-}
+name: build
+
+on:
+  - push
+
+jobs:
+  build:
+    name: Build, Test & Upload
+    runs-on: ubuntu-latest
+    container:
+      image: haskell:8.10.7-buster
+      options: --user root
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.stack
+            .stack-work
+            */.stack-work
+          key: ${{ runner.os }}
+      - name: Permissions bug workaround
+        run: "chown -R $(id -un):$(id -gn) ~"
+      - name: Build
+        run: stack build --ghc-options=-O2
+      - name: Check Formatting
+        run: make format-check
+      - name: Test
+        run: stack test --ghc-options=-O2
+      - name: Make Artifacts Directory
+        run: mkdir artifacts
+      - name: Copy Artifact
+        run: cp $(stack exec which {{name}}-exe) ./artifacts
+      - name: Tar Artifacts
+        run: tar -cvf artifacts.tar ./artifacts
+      - uses: actions/upload-artifact@v2
+        with:
+          path: artifacts.tar
+        if: ${{ github.ref == 'refs/heads/main' }}
