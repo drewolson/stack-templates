@@ -1,0 +1,109 @@
+{-# START_FILE package.yaml #-}
+name:                {{name}}
+version:             0.1.0.0
+github:              "{{github-username}}{{^github-username}}githubuser{{/github-username}}/{{name}}"
+license:             MIT
+author:              "{{author-name}}{{^author-name}}Author name here{{/author-name}}"
+maintainer:          "{{author-email}}{{^author-email}}example@example.com{{/author-email}}"
+copyright:           "{{copyright}}{{^copyright}}{{year}}{{^year}}2019{{/year}}-present {{author-name}}{{^author-name}}Author name here{{/author-name}}{{/copyright}}"
+
+extra-source-files:
+- README.md
+
+description:         {{name}}
+
+ghc-options:
+- -Werror
+- -Wall
+- -Wcompat
+- -Wincomplete-record-updates
+- -Wincomplete-uni-patterns
+- -Wredundant-constraints
+
+default-extensions:
+- AllowAmbiguousTypes
+- BlockArguments
+- DataKinds
+- DeriveAnyClass
+- DeriveGeneric
+- DerivingStrategies
+- ExplicitNamespaces
+- FlexibleInstances
+- GeneralizedNewtypeDeriving
+- ImportQualifiedPost
+- InstanceSigs
+- LambdaCase
+- NamedFieldPuns
+- QuasiQuotes
+- ScopedTypeVariables
+- StandaloneDeriving
+- TupleSections
+- TypeApplications
+- TypeOperators
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+
+executables:
+  {{name}}-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - {{name}}
+    when:
+    - condition: false
+      other-modules: Paths_{{name}}
+
+tests:
+  {{name}}-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - {{name}}
+    - hspec
+    - hspec-discover
+    - QuickCheck
+
+{-# START_FILE Setup.hs #-}
+import Distribution.Simple
+main = defaultMain
+
+{-# START_FILE test/Spec.hs #-}
+{-# OPTIONS_GHC -F -pgmF hspec-discover #-}
+
+{-# START_FILE src/Lib.hs #-}
+module Lib
+    ( someFunc
+    ) where
+
+someFunc :: IO ()
+someFunc = putStrLn "someFunc"
+
+{-# START_FILE app/Main.hs #-}
+module Main where
+
+import Lib
+
+main :: IO ()
+main = someFunc
+
+{-# START_FILE README.md #-}
+# {{name}}
+
+{-# START_FILE LICENSE #-}
+MIT
+
+{-# START_FILE .gitignore #-}
+.stack-work/
+*~
