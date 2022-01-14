@@ -147,22 +147,12 @@ jobs:
             ~/.stack
             .stack-work
             */.stack-work
-          key: ${{ runner.os }}
+          key: \${{ runner.os }}
       - name: Permissions bug workaround
         run: "chown -R $(id -un):$(id -gn) ~"
       - name: Build
-        run: stack build --ghc-options=-O2
+        run: stack build
       - name: Check Formatting
         run: make format-check
       - name: Test
-        run: stack test --ghc-options=-O2
-      - name: Make Artifacts Directory
-        run: mkdir artifacts
-      - name: Copy Artifact
-        run: cp $(stack exec which {{name}}-exe) ./artifacts
-      - name: Tar Artifacts
-        run: tar -cvf artifacts.tar ./artifacts
-      - uses: actions/upload-artifact@v2
-        with:
-          path: artifacts.tar
-        if: ${{ github.ref == 'refs/heads/main' }}
+        run: stack test
