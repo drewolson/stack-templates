@@ -85,7 +85,7 @@ module Main where
 import Lib
 
 main :: IO ()
-main = putrStrLn someFunc
+main = putStrLn someFunc
 
 {-# START_FILE README.md #-}
 # {{name}}
