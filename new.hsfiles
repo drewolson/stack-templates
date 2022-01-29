@@ -83,14 +83,29 @@ main = defaultMain
 {-# START_FILE test/Spec.hs #-}
 {-# OPTIONS_GHC -F -pgmF hspec-discover #-}
 
+{-# START_FILE test/LibSpec.hs #-}
+module LibSpec
+  ( spec,
+  )
+where
+
+import qualified Lib as Lib
+import Test.Hspec (Spec, describe, it, shouldBe)
+
+spec :: Spec
+spec = do
+  describe "someFunc" $ do
+    it "returns a string" $ do
+      Lib.someFunc `shouldBe` "Hello, world!"
+
 {-# START_FILE src/Lib.hs #-}
 module Lib
   ( someFunc,
   )
 where
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+someFunc :: String
+someFunc = "someFunc"
 
 {-# START_FILE app/Main.hs #-}
 module Main where
@@ -98,7 +113,7 @@ module Main where
 import Lib
 
 main :: IO ()
-main = someFunc
+main = putStrLn someFunc
 
 {-# START_FILE README.md #-}
 # {{name}}
@@ -113,10 +128,10 @@ MIT
 {-# START_FILE Makefile #-}
 list-files = find . -name '*.hs' | grep -v '.stack-work'
 
-ormolu = stack exec -- ormolu -o '-XImportQualifiedPost' -o '-XPatternSynonyms'
+ormolu = stack exec --allow-different-user -- ormolu -o '-XImportQualifiedPost' -o '-XPatternSynonyms'
 
 build:
-	stack build
+	stack build --allow-different-user
 
 format: build
 	$(ormolu) --mode inplace $(shell $(list-files))
@@ -147,12 +162,12 @@ jobs:
             ~/.stack
             .stack-work
             */.stack-work
-          key: {{name}}
+          key: {{ name }}
       - name: Permissions bug workaround
         run: "chown -R $(id -un):$(id -gn) ~"
       - name: Build
-        run: stack build
+        run: stack build --allow-different-user
       - name: Check Formatting
         run: make format-check
       - name: Test
-        run: stack test
+        run: stack test --allow-different-user
