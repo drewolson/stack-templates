@@ -89,13 +89,13 @@ module LibSpec
   )
 where
 
-import qualified Lib as Lib
+import Lib qualified as Lib
 import Test.Hspec (Spec, describe, it, shouldBe)
 
 spec :: Spec
 spec = do
-  describe "someFunc" $ do
-    it "returns a string" $ do
+  describe "someFunc" do
+    it "returns a string" do
       Lib.someFunc `shouldBe` "Hello, world!"
 
 {-# START_FILE src/Lib.hs #-}
@@ -105,7 +105,7 @@ module Lib
 where
 
 someFunc :: String
-someFunc = "someFunc"
+someFunc = "Hello, world!"
 
 {-# START_FILE app/Main.hs #-}
 module Main where
