@@ -147,6 +147,7 @@ jobs:
             ~/.stack
             .stack-work
             */.stack-work
+          key: {{name}}
       - name: Permissions bug workaround
         run: "chown -R $(id -un):$(id -gn) ~"
       - name: Build
