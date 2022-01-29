@@ -137,6 +137,6 @@ jobs:
       - name: Permissions bug workaround
         run: "chown -R $(id -un):$(id -gn) ~"
       - name: Build
-        run: stack build
+        run: stack build --allow-different-user
       - name: Test
-        run: stack test
+        run: stack test --allow-different-user
