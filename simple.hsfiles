@@ -90,6 +90,24 @@ main = putStrLn someFunc
 {-# START_FILE README.md #-}
 # {{name}}
 
+## Build
+
+```
+stack build
+```
+
+## Test
+
+```
+stack test
+```
+
+## Run
+
+```
+stack run
+```
+
 {-# START_FILE .gitignore #-}
 .stack-work/
 *~
