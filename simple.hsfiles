@@ -61,7 +61,7 @@ module LibSpec
   )
 where
 
-import qualified Lib as Lib
+import qualified Lib
 import Test.Hspec (Spec, describe, it, shouldBe)
 
 spec :: Spec
@@ -82,7 +82,7 @@ someFunc = "Hello, world!"
 {-# START_FILE app/Main.hs #-}
 module Main where
 
-import Lib
+import qualified Lib
 
 main :: IO ()
 main = putStrLn someFunc
@@ -120,7 +120,7 @@ on:
 
 jobs:
   build:
-    name: Build, Test & Upload
+    name: Build & Test
     runs-on: ubuntu-latest
     container:
       image: haskell:8.10.7-buster
