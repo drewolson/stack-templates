@@ -13,6 +13,9 @@ ghc-options:
 - -Wcompat
 - -Wincomplete-record-updates
 - -Wincomplete-uni-patterns
+- -Wno-unused-top-binds
+- -Wno-unused-local-binds
+- -Wno-unused-pattern-binds
 
 default-extensions:
 - InstanceSigs

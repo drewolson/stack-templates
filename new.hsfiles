@@ -89,7 +89,7 @@ module LibSpec
   )
 where
 
-import Lib qualified as Lib
+import Lib qualified
 import Test.Hspec (Spec, describe, it, shouldBe)
 
 spec :: Spec
@@ -149,10 +149,10 @@ on:
 
 jobs:
   build:
-    name: Build, Test & Upload
+    name: Build & Test
     runs-on: ubuntu-latest
     container:
-      image: haskell:8.10.7-buster
+      image: haskell:9.0.2-buster
       options: --user root
     steps:
       - uses: actions/checkout@v2
