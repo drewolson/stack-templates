@@ -110,10 +110,10 @@ someFunc = "Hello, world!"
 {-# START_FILE app/Main.hs #-}
 module Main where
 
-import Lib
+import Lib qualified
 
 main :: IO ()
-main = putStrLn someFunc
+main = putStrLn Lib.someFunc
 
 {-# START_FILE README.md #-}
 # {{name}}
