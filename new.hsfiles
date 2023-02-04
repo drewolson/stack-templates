@@ -75,8 +75,8 @@ import Test.Hspec (Spec, describe, it, shouldBe)
 
 spec :: Spec
 spec = do
-  describe "someFunc" do
-    it "returns a string" do
+  describe "someFunc" $ do
+    it "returns a string" $ do
       Lib.someFunc `shouldBe` "Hello, world!"
 
 {-# START_FILE src/Lib.hs #-}
