@@ -19,26 +19,7 @@ ghc-options:
 - -Wincomplete-uni-patterns
 - -Wredundant-constraints
 
-default-extensions:
-- AllowAmbiguousTypes
-- BlockArguments
-- DataKinds
-- DeriveAnyClass
-- DeriveGeneric
-- DerivingStrategies
-- ExplicitNamespaces
-- FlexibleInstances
-- GeneralizedNewtypeDeriving
-- ImportQualifiedPost
-- InstanceSigs
-- LambdaCase
-- NamedFieldPuns
-- QuasiQuotes
-- ScopedTypeVariables
-- StandaloneDeriving
-- TupleSections
-- TypeApplications
-- TypeOperators
+language: GHC2021
 
 dependencies:
 - base >= 4.7 && < 5
